@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Value Capital - Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a25;
+            --border: #2a2a3a;
+            --text-primary: #ffffff;
+            --text-secondary: #8b8b9e;
+            --text-muted: #5a5a6e;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #f4d03f;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --gradient-gold: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .logo-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--bg-dark);
+        }
+
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .logo-text span {
+            color: var(--accent-gold);
+        }
+
+        .nav-section {
+            flex: 1;
+            padding: 1rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-group-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+            border-right: 3px solid var(--accent-gold);
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+        }
+
+        /* ILIA Assistant Section in Sidebar */
+        .ilia-section {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+        }
+
+        .ilia-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .ilia-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--bg-dark);
+        }
+
+        .ilia-status {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ilia-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .ilia-online {
+            font-size: 0.7rem;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .ilia-online::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+        }
+
+        .ilia-open-btn {
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .ilia-open-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .header-btn.primary {
+            background: var(--gradient-gold);
+            border: none;
+            color: var(--bg-dark);
+            font-weight: 500;
+        }
+
+        .header-btn.primary:hover {
+            opacity: 0.9;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* KPI Cards */
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .kpi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .kpi-trend {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .kpi-trend.up {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .kpi-trend.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+
+        .kpi-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-action {
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .section-action:hover {
+            text-decoration: underline;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Tasks List */
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-checkbox.checked {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .task-priority {
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .task-priority.urgent {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+
+        .task-priority.important {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .task-priority.normal {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
+
+        /* Roadmap */
+        .roadmap-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .roadmap-item:last-child {
+            border-bottom: none;
+        }
+
+        .roadmap-number {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-hover);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .roadmap-number.active {
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+        }
+
+        .roadmap-content {
+            flex: 1;
+        }
+
+        .roadmap-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .roadmap-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-status {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .roadmap-status.en-cours {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+        }
+
+        .roadmap-status.a-venir {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
+
+        /* Quick Links */
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .quick-link:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .quick-link-icon {
+            font-size: 1.2rem;
+        }
+
+        .quick-link-text {
+            font-size: 0.85rem;
+        }
+
+        /* ILIA Chat Panel */
+        .ilia-panel {
+            position: fixed;
+            right: -420px;
+            top: 0;
+            width: 420px;
+            height: 100vh;
+            background: var(--bg-card);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 200;
+            transition: right 0.3s ease;
+        }
+
+        .ilia-panel.open {
+            right: 0;
+        }
+
+        .ilia-panel-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
+        }
+
+        .ilia-panel-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .ilia-panel-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-dark);
+        }
+
+        .ilia-panel-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .ilia-panel-info p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .ilia-close-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-hover);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ilia-close-btn:hover {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .ilia-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .ilia-message {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ilia-message.user {
+            flex-direction: row-reverse;
+        }
+
+        .ilia-message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .ilia-message-avatar.ilia {
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+        }
+
+        .ilia-message-avatar.user {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .ilia-message-content {
+            max-width: 80%;
+        }
+
+        .ilia-message-bubble {
+            padding: 0.875rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .ilia-message.ilia .ilia-message-bubble {
+            background: var(--bg-hover);
+            border-bottom-left-radius: 4px;
+        }
+
+        .ilia-message.user .ilia-message-bubble {
+            background: var(--accent-blue);
+            border-bottom-right-radius: 4px;
+        }
+
+        .ilia-message-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .ilia-message.user .ilia-message-time {
+            text-align: right;
+        }
+
+        .ilia-typing {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .ilia-typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .ilia-typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite;
+        }
+
+        .ilia-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .ilia-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+
+        .ilia-input-area {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            background: var(--bg-dark);
+        }
+
+        .ilia-quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .ilia-quick-action {
+            padding: 0.4rem 0.75rem;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ilia-quick-action:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .ilia-input-wrapper {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .ilia-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .ilia-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .ilia-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .ilia-send-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-gold);
+            border: none;
+            border-radius: 12px;
+            color: var(--bg-dark);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .ilia-send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .ilia-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .ilia-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo">
+                    <div class="logo-icon">HVC</div>
+                    <div class="logo-text">High Value <span>Capital</span></div>
+                </div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-group">
+                    <div class="nav-group-title">Principal</div>
+                    <a href="#" class="nav-item active" data-page="dashboard">
+                        <span class="nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="tasks">
+                        <span class="nav-icon">✅</span>
+                        <span>Taches</span>
+                        <span class="nav-badge" id="tasks-badge">5</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="roadmap">
+                        <span class="nav-icon">🗺️</span>
+                        <span>Roadmap</span>
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Marketing</div>
+                    <a href="#" class="nav-item" data-page="content">
+                        <span class="nav-icon">📝</span>
+                        <span>Contenu Social</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="newsletter">
+                        <span class="nav-icon">📧</span>
+                        <span>Newsletter</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="testimonials">
+                        <span class="nav-icon">⭐</span>
+                        <span>Temoignages</span>
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Business</div>
+                    <a href="#" class="nav-item" data-page="crm">
+                        <span class="nav-icon">👥</span>
+                        <span>CRM Contacts</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="leads">
+                        <span class="nav-icon">💰</span>
+                        <span>Leads Investisseurs</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="kpis">
+                        <span class="nav-icon">📈</span>
+                        <span>KPIs</span>
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Trading</div>
+                    <a href="#" class="nav-item" data-page="scanner">
+                        <span class="nav-icon">🤖</span>
+                        <span>Scanner IA</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="trades">
+                        <span class="nav-icon">📉</span>
+                        <span>Historique Trades</span>
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Formation</div>
+                    <a href="#" class="nav-item" data-page="formation">
+                        <span class="nav-icon">🎓</span>
+                        <span>Formation 2.0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="onboarding">
+                        <span class="nav-icon">📬</span>
+                        <span>Sequence Emails</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- ILIA Section -->
+            <div class="ilia-section">
+                <div class="ilia-header">
+                    <div class="ilia-avatar">IL</div>
+                    <div class="ilia-status">
+                        <span class="ilia-name">ILIA</span>
+                        <span class="ilia-online">En ligne</span>
+                    </div>
+                </div>
+                <button class="ilia-open-btn" onclick="openIliaPanel()">
+                    <span>💬</span>
+                    <span>Ouvrir le chat</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Command Center</h1>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" onclick="syncAirtable()">
+                        <span>🔄</span>
+                        <span>Sync Airtable</span>
+                    </button>
+                    <button class="header-btn primary" onclick="openIliaPanel()">
+                        <span>✨</span>
+                        <span>Demander a ILIA</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- KPI Cards -->
+                <div class="dashboard-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">👥</div>
+                            <span class="kpi-trend up">+12%</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-contacts">1,106</div>
+                        <div class="kpi-label">Contacts Email</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">💰</div>
+                            <span class="kpi-trend up">+8%</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-sales">~100</div>
+                        <div class="kpi-label">Ventes Formation</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">📈</div>
+                            <span class="kpi-trend up">+2%</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-conversion">~10%</div>
+                        <div class="kpi-label">Taux Conversion</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">🎯</div>
+                            <span class="kpi-trend">Objectif</span>
+                        </div>
+                        <div class="kpi-value">5k€</div>
+                        <div class="kpi-label">MRR Cible</div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- Tasks Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span>✅</span>
+                                Taches Prioritaires
+                            </h2>
+                            <a href="#" class="section-action">Voir tout</a>
+                        </div>
+                        <div class="section-content" id="tasks-container">
+                            <!-- Tasks loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Roadmap -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <span>🗺️</span>
+                                    Roadmap
+                                </h2>
+                            </div>
+                            <div class="section-content" id="roadmap-container">
+                                <!-- Roadmap loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <span>🔗</span>
+                                    Liens Rapides
+                                </h2>
+                            </div>
+                            <div class="section-content">
+                                <a href="https://www.community.highvaluecapital.club" target="_blank" class="quick-link">
+                                    <span class="quick-link-icon">🏠</span>
+                                    <span class="quick-link-text">Heartbeat Community</span>
+                                </a>
+                                <a href="https://www.brevo.com" target="_blank" class="quick-link">
+                                    <span class="quick-link-icon">📧</span>
+                                    <span class="quick-link-text">Brevo Email</span>
+                                </a>
+                                <a href="https://n8n.srv1140766.hstgr.cloud" target="_blank" class="quick-link">
+                                    <span class="quick-link-icon">⚙️</span>
+                                    <span class="quick-link-text">n8n Workflows</span>
+                                </a>
+                                <a href="https://instagram.com/highvaluecapital" target="_blank" class="quick-link">
+                                    <span class="quick-link-icon">📸</span>
+                                    <span class="quick-link-text">Instagram HVC</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeIliaPanel()"></div>
+
+    <!-- ILIA Panel -->
+    <div class="ilia-panel" id="ilia-panel">
+        <div class="ilia-panel-header">
+            <div class="ilia-panel-title">
+                <div class="ilia-panel-avatar">IL</div>
+                <div class="ilia-panel-info">
+                    <h3>ILIA</h3>
+                    <p>Assistant IA High Value Capital</p>
+                </div>
+            </div>
+            <button class="ilia-close-btn" onclick="closeIliaPanel()">✕</button>
+        </div>
+
+        <div class="ilia-messages" id="ilia-messages">
+            <div class="ilia-message ilia">
+                <div class="ilia-message-avatar ilia">IL</div>
+                <div class="ilia-message-content">
+                    <div class="ilia-message-bubble">
+                        Salut Jordy ! 👋 Je suis <strong>ILIA</strong>, ton assistant IA pour High Value Capital.<br><br>
+                        J'ai acces a toutes tes donnees Airtable : taches, contacts, temoignages, newsletter, roadmap, et plus encore.<br><br>
+                        Comment puis-je t'aider aujourd'hui ?
+                    </div>
+                    <div class="ilia-message-time">Maintenant</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ilia-input-area">
+            <div class="ilia-quick-actions">
+                <button class="ilia-quick-action" onclick="sendQuickAction('Quelles sont mes taches urgentes ?')">📋 Taches urgentes</button>
+                <button class="ilia-quick-action" onclick="sendQuickAction('Resume mes KPIs actuels')">📊 KPIs</button>
+                <button class="ilia-quick-action" onclick="sendQuickAction('Quel est le prochain email de la sequence onboarding ?')">📧 Onboarding</button>
+                <button class="ilia-quick-action" onclick="sendQuickAction('Donne-moi un temoignage pour une newsletter')">⭐ Temoignage</button>
+            </div>
+            <div class="ilia-input-wrapper">
+                <input type="text" class="ilia-input" id="ilia-input" placeholder="Pose une question a ILIA..." onkeypress="handleInputKeypress(event)">
+                <button class="ilia-send-btn" id="ilia-send-btn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration Airtable
+        const AIRTABLE_CONFIG = {
+            baseId: 'appW1YCDJVOMmLicc',
+            apiKey: localStorage.getItem('hvc_airtable_key') || ''
+        };
+
+        // Configuration n8n Webhook ILIA (avec mémoire persistante)
+        const N8N_ILIA_WEBHOOK = 'https://n8n.srv1140766.hstgr.cloud/webhook/ilia-chat';
+
+        // Session ID pour la mémoire conversationnelle
+        const ILIA_SESSION_ID = localStorage.getItem('ilia_session_id') || generateSessionId();
+
+        function generateSessionId() {
+            const id = 'ilia_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('ilia_session_id', id);
+            return id;
+        }
+
+        // Table IDs
+        const TABLES = {
+            tasks: 'tblKrcktcmDG8wXVb',
+            roadmap: 'tblTKevaaCITLp2tf',
+            workflows: 'tblvBMKd4rdT3H3wO',
+            newsletter: 'tblDd4AcPy46mdjNm',
+            kpis: 'tblzjAQbDhR42yqyb',
+            content: 'tbl1NVtwy7ycIL5mM',
+            ideas: 'tblRqRhZxxkPh8dOC',
+            contacts: 'tblPAJXEt9SzxOMYt',
+            dashboard: 'tblaSQDlEDOpdmZgR',
+            onboarding: 'tblj3Zl2pArjMrblR',
+            testimonials: 'tblLd5ceQbg6v8EyH',
+            formation: 'tblKSldHlJMfufRws',
+            videos: 'tblRXMeEDDMAIoP0W',
+            contentSocial: 'tbl1j7PjKpUeiYaP6',
+            funnelIA: 'tblcqxxRNzInsApPc',
+            leads: 'tblPmw0tse5j5Sp9a',
+            trades: 'tbltofezo6xGlblrK'
+        };
+
+        // Data storage
+        let hvcData = {
+            tasks: [],
+            roadmap: [],
+            contacts: [],
+            testimonials: [],
+            onboarding: [],
+            kpis: [],
+            dashboard: []
+        };
+
+        // Chat history for context
+        let chatHistory = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            checkApiKeys();
+            await loadAllData();
+        });
+
+        // Check API keys
+        function checkApiKeys() {
+            if (!AIRTABLE_CONFIG.apiKey) {
+                const key = prompt('Entre ta cle API Airtable pour HVC:');
+                if (key) {
+                    localStorage.setItem('hvc_airtable_key', key);
+                    AIRTABLE_CONFIG.apiKey = key;
+                }
+            }
+            if (!CLAUDE_API_KEY) {
+                const key = prompt('Entre ta cle API Claude (Anthropic):');
+                if (key) {
+                    localStorage.setItem('hvc_claude_key', key);
+                }
+            }
+        }
+
+        // Airtable API
+        async function fetchAirtable(tableId, options = {}) {
+            const params = new URLSearchParams();
+            if (options.maxRecords) params.append('maxRecords', options.maxRecords);
+            if (options.view) params.append('view', options.view);
+            if (options.sort) {
+                options.sort.forEach((s, i) => {
+                    params.append(`sort[${i}][field]`, s.field);
+                    params.append(`sort[${i}][direction]`, s.direction || 'asc');
+                });
+            }
+
+            const url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${tableId}?${params}`;
+
+            try {
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}` }
+                });
+                const data = await response.json();
+                return data.records || [];
+            } catch (error) {
+                console.error('Airtable error:', error);
+                return [];
+            }
+        }
+
+        // Load all data
+        async function loadAllData() {
+            try {
+                // Load tasks
+                const tasksRecords = await fetchAirtable(TABLES.tasks, {
+                    maxRecords: 20,
+                    sort: [{ field: 'Priorité' }]
+                });
+                hvcData.tasks = tasksRecords.map(r => ({
+                    id: r.id,
+                    task: r.fields['Tâche'] || '',
+                    description: r.fields['Description'] || '',
+                    type: r.fields['Type'] || '',
+                    status: r.fields['Status'] || 'À faire',
+                    priority: r.fields['Priorité'] || 'Normal',
+                    deadline: r.fields['Date limite'] || '',
+                    notes: r.fields['Notes'] || ''
+                }));
+
+                // Load roadmap
+                const roadmapRecords = await fetchAirtable(TABLES.roadmap, {
+                    sort: [{ field: 'Ordre' }]
+                });
+                hvcData.roadmap = roadmapRecords.map(r => ({
+                    id: r.id,
+                    phase: r.fields['Phase'] || '',
+                    description: r.fields['Description'] || '',
+                    objective: r.fields['Objectif'] || '',
+                    status: r.fields['Status'] || 'À venir',
+                    order: r.fields['Ordre'] || 0
+                }));
+
+                // Load testimonials
+                const testimonialRecords = await fetchAirtable(TABLES.testimonials, {
+                    maxRecords: 50
+                });
+                hvcData.testimonials = testimonialRecords.map(r => ({
+                    id: r.id,
+                    name: r.fields['Nom Client'] || '',
+                    textRaw: r.fields['Texte Brut'] || '',
+                    versionEmail: r.fields['Version Email'] || '',
+                    versionPage: r.fields['Version Page Vente'] || '',
+                    versionVSL: r.fields['Version VSL'] || '',
+                    result: r.fields['Résultat Clé'] || '',
+                    type: r.fields['Type'] || '',
+                    categories: r.fields['Catégorie'] || [],
+                    impactScore: r.fields['Impact Score'] || 0
+                }));
+
+                // Load onboarding sequence
+                const onboardingRecords = await fetchAirtable(TABLES.onboarding, {
+                    sort: [{ field: 'Numero' }]
+                });
+                hvcData.onboarding = onboardingRecords.map(r => ({
+                    id: r.id,
+                    number: r.fields['Numero'] || 0,
+                    name: r.fields['Nom Email'] || '',
+                    timing: r.fields['Timing'] || '',
+                    days: r.fields['Jours apres inscription'] || 0,
+                    objective: r.fields['Objectif'] || '',
+                    subjectA: r.fields['Subject Line A'] || '',
+                    subjectB: r.fields['Subject Line B'] || '',
+                    subjectC: r.fields['Subject Line C'] || '',
+                    type: r.fields['Type Email'] || '',
+                    ctaType: r.fields['CTA Type'] || '',
+                    status: r.fields['Status'] || '',
+                    content: r.fields['Contenu'] || ''
+                }));
+
+                // Load dashboard info
+                const dashboardRecords = await fetchAirtable(TABLES.dashboard);
+                hvcData.dashboard = dashboardRecords.map(r => ({
+                    section: r.fields['Section'] || '',
+                    element: r.fields['Élément'] || '',
+                    value: r.fields['Valeur'] || '',
+                    link: r.fields['Lien'] || '',
+                    notes: r.fields['Notes'] || ''
+                }));
+
+                // Update UI
+                renderTasks();
+                renderRoadmap();
+                updateKPIs();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Render tasks
+        function renderTasks() {
+            const container = document.getElementById('tasks-container');
+            const activeTasks = hvcData.tasks.filter(t => t.status !== 'Fait').slice(0, 5);
+
+            if (activeTasks.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Aucune tache en cours</p>';
+                return;
+            }
+
+            container.innerHTML = activeTasks.map(task => `
+                <div class="task-item" onclick="toggleTask('${task.id}')">
+                    <div class="task-checkbox ${task.status === 'Fait' ? 'checked' : ''}">
+                        ${task.status === 'Fait' ? '✓' : ''}
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">${task.task}</div>
+                        <div class="task-meta">
+                            <span class="task-priority ${task.priority.toLowerCase()}">${task.priority}</span>
+                            <span>${task.type || 'General'}</span>
+                            ${task.deadline ? `<span>📅 ${task.deadline}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update badge
+            document.getElementById('tasks-badge').textContent = activeTasks.length;
+        }
+
+        // Render roadmap
+        function renderRoadmap() {
+            const container = document.getElementById('roadmap-container');
+
+            container.innerHTML = hvcData.roadmap.slice(0, 5).map(phase => `
+                <div class="roadmap-item">
+                    <div class="roadmap-number ${phase.status === 'En cours' ? 'active' : ''}">${phase.order}</div>
+                    <div class="roadmap-content">
+                        <div class="roadmap-title">${phase.phase}</div>
+                        <div class="roadmap-desc">${phase.objective}</div>
+                        <span class="roadmap-status ${phase.status === 'En cours' ? 'en-cours' : 'a-venir'}">${phase.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update KPIs
+        function updateKPIs() {
+            const kpiData = hvcData.dashboard.filter(d => d.section === 'KPIs ACTUELS');
+
+            kpiData.forEach(kpi => {
+                if (kpi.element.includes('Liste email')) {
+                    document.getElementById('kpi-contacts').textContent = kpi.value;
+                } else if (kpi.element.includes('Ventes')) {
+                    document.getElementById('kpi-sales').textContent = kpi.value;
+                } else if (kpi.element.includes('conversion')) {
+                    document.getElementById('kpi-conversion').textContent = kpi.value;
+                }
+            });
+        }
+
+        // Toggle task status
+        async function toggleTask(taskId) {
+            const task = hvcData.tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            const newStatus = task.status === 'Fait' ? 'À faire' : 'Fait';
+
+            try {
+                await fetch(`https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${TABLES.tasks}/${taskId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_CONFIG.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fields: { 'Status': newStatus }
+                    })
+                });
+
+                task.status = newStatus;
+                renderTasks();
+            } catch (error) {
+                console.error('Error updating task:', error);
+            }
+        }
+
+        // Sync Airtable
+        async function syncAirtable() {
+            const btn = event.target.closest('button');
+            btn.innerHTML = '<span>⏳</span><span>Syncing...</span>';
+            await loadAllData();
+            btn.innerHTML = '<span>🔄</span><span>Sync Airtable</span>';
+        }
+
+        // ILIA Panel functions
+        function openIliaPanel() {
+            document.getElementById('ilia-panel').classList.add('open');
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('ilia-input').focus();
+        }
+
+        function closeIliaPanel() {
+            document.getElementById('ilia-panel').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Send quick action
+        function sendQuickAction(message) {
+            document.getElementById('ilia-input').value = message;
+            sendMessage();
+        }
+
+        // Handle input keypress
+        function handleInputKeypress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Add message to chat
+        function addMessage(content, isUser = false) {
+            const container = document.getElementById('ilia-messages');
+            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+            const messageHtml = `
+                <div class="ilia-message ${isUser ? 'user' : 'ilia'}">
+                    <div class="ilia-message-avatar ${isUser ? 'user' : 'ilia'}">${isUser ? 'JB' : 'IL'}</div>
+                    <div class="ilia-message-content">
+                        <div class="ilia-message-bubble">${content}</div>
+                        <div class="ilia-message-time">${time}</div>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', messageHtml);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            const container = document.getElementById('ilia-messages');
+            container.insertAdjacentHTML('beforeend', `
+                <div class="ilia-typing" id="typing-indicator">
+                    <div class="ilia-typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span>ILIA reflechit...</span>
+                </div>
+            `);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTyping() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+        }
+
+        // Build context for ILIA
+        function buildIliaContext() {
+            const context = `
+Tu es ILIA, l'assistant IA de High Value Capital (HVC), une entreprise de formation au trading Forex fondee par Jordy Banks.
+
+## CONTEXTE ENTREPRISE
+
+**High Value Capital** est une plateforme de formation au trading Forex avec:
+- Formation gratuite d'introduction
+- Formation payante a 97€ (paiement unique)
+- Communaute Heartbeat active
+- Newsletter hebdomadaire
+
+**Objectifs actuels:**
+- Court terme: 5k€/mois de revenus
+- Moyen terme: 10k€/mois
+- Long terme: 20-35k€/mois avec <15h/semaine
+
+**Phase actuelle:** Phase 1 - Optimisation (activer les 1000+ contacts existants)
+
+## DONNEES DISPONIBLES
+
+### Taches (${hvcData.tasks.length} total):
+${hvcData.tasks.slice(0, 10).map(t => `- [${t.status}] ${t.task} (${t.priority})`).join('\n')}
+
+### Roadmap:
+${hvcData.roadmap.map(r => `- Phase ${r.order}: ${r.phase} - ${r.status} - Objectif: ${r.objective}`).join('\n')}
+
+### Temoignages (${hvcData.testimonials.length} total):
+${hvcData.testimonials.slice(0, 5).map(t => `- ${t.name}: "${t.result}" (Score: ${t.impactScore}/10)`).join('\n')}
+
+### Sequence Onboarding (7 emails):
+${hvcData.onboarding.map(e => `- Email ${e.number}: ${e.name} (J+${e.days}) - ${e.objective}`).join('\n')}
+
+### KPIs Dashboard:
+${hvcData.dashboard.filter(d => d.section === 'KPIs ACTUELS').map(k => `- ${k.element}: ${k.value}`).join('\n')}
+
+## REGLES
+1. Sois concis et actionnable
+2. Utilise les donnees reelles de la base Airtable
+3. Propose des actions concretes
+4. Tutoie Jordy (on se connait bien)
+5. Sois oriente resultats et ROI
+6. Si tu ne sais pas, dis-le clairement
+`;
+            return context;
+        }
+
+        // Send message to ILIA via n8n webhook (avec mémoire persistante)
+        async function sendMessage() {
+            const input = document.getElementById('ilia-input');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            input.value = '';
+            addMessage(message, true);
+
+            // Add to local history
+            chatHistory.push({ role: 'user', content: message });
+
+            // Show typing
+            showTyping();
+
+            try {
+                // Appel au webhook n8n ILIA avec mémoire
+                const response = await fetch(N8N_ILIA_WEBHOOK, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: ILIA_SESSION_ID,
+                        context: {
+                            tasks: hvcData.tasks.slice(0, 10),
+                            roadmap: hvcData.roadmap,
+                            kpis: hvcData.dashboard.filter(d => d.section === 'KPIs ACTUELS')
+                        }
+                    })
+                });
+
+                const data = await response.json();
+                hideTyping();
+
+                if (data.success && data.response) {
+                    const reply = data.response;
+                    addMessage(reply.replace(/\n/g, '<br>'));
+                    chatHistory.push({ role: 'assistant', content: reply });
+                } else if (data.error) {
+                    addMessage(`Erreur: ${data.error}`);
+                } else {
+                    addMessage("Desole, je n'ai pas pu generer de reponse. Reessaie.");
+                }
+
+            } catch (error) {
+                hideTyping();
+                console.error('ILIA Error:', error);
+                addMessage(`Erreur de connexion au serveur ILIA. Verifie que le workflow n8n est actif.`);
+            }
+        }
+
+        // Nouvelle session ILIA (efface la mémoire de conversation)
+        function newIliaSession() {
+            localStorage.removeItem('ilia_session_id');
+            location.reload();
+        }
+    </script>
+</body>
+</html>
