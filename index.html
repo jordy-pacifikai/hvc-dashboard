@@ -107,13 +107,29 @@
                     <svg class="w-6 h-6 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
-                    Content Planner - 15 Jours
+                    Content Planner
                 </h2>
                 <button onclick="closeContentPlannerModal()" class="p-2 hover:bg-dark-700 rounded-lg transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
+            </div>
+
+            <!-- Date Range Selection -->
+            <div class="mb-6">
+                <label class="block text-sm text-gray-400 mb-3">Periode du rapport</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-2">Date de debut</label>
+                        <input type="date" id="planner-start-date" class="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-3 text-white focus:border-accent-purple focus:outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-2">Date de fin</label>
+                        <input type="date" id="planner-end-date" class="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-3 text-white focus:border-accent-purple focus:outline-none transition">
+                    </div>
+                </div>
+                <p id="date-range-info" class="text-xs text-gray-500 mt-2"></p>
             </div>
 
             <!-- Brand Selection -->
@@ -2418,6 +2434,16 @@
             document.getElementById('content-options').classList.add('hidden');
             document.getElementById('generate-buttons').classList.add('hidden');
             document.getElementById('content-preview').classList.add('hidden');
+
+            // Initialize default dates (today + 14 days = 15 days total)
+            const today = new Date();
+            const endDefault = new Date(today);
+            endDefault.setDate(today.getDate() + 14);
+
+            const formatDate = (d) => d.toISOString().split('T')[0];
+            document.getElementById('planner-start-date').value = formatDate(today);
+            document.getElementById('planner-end-date').value = formatDate(endDefault);
+            document.getElementById('date-range-info').textContent = '15 jours de contenu';
         }
 
         function closeContentPlannerModal() {
@@ -2445,13 +2471,34 @@
         function generatePreview() {
             const previewContainer = document.getElementById('preview-content');
             const days = [];
-            const today = new Date();
 
-            for (let i = 0; i < 15; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() + i);
-                days.push(date);
+            const startDateInput = document.getElementById('planner-start-date').value;
+            const endDateInput = document.getElementById('planner-end-date').value;
+
+            if (!startDateInput || !endDateInput) {
+                previewContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Selectionne les dates pour voir l\'apercu</p>';
+                document.getElementById('content-preview').classList.remove('hidden');
+                return;
             }
+
+            const startDate = new Date(startDateInput);
+            const endDate = new Date(endDateInput);
+
+            if (endDate < startDate) {
+                previewContainer.innerHTML = '<p class="text-red-400 text-sm text-center py-4">La date de fin doit etre apres la date de debut</p>';
+                document.getElementById('content-preview').classList.remove('hidden');
+                return;
+            }
+
+            let currentDate = new Date(startDate);
+            while (currentDate <= endDate) {
+                days.push(new Date(currentDate));
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            // Update info text
+            const diffDays = days.length;
+            document.getElementById('date-range-info').textContent = `${diffDays} jour${diffDays > 1 ? 's' : ''} de contenu`;
 
             const brandName = selectedBrand === 'jordy' ? 'Jordy Banks' : 'High Value Capital';
             const contentTypes = selectedBrand === 'jordy'
@@ -2502,13 +2549,27 @@
                 ? 'linear-gradient(135deg, #06b6d4, #3b82f6)'
                 : 'linear-gradient(135deg, #3b82f6, #8b5cf6)';
 
-            const today = new Date();
-            const days = [];
+            const startDateInput = document.getElementById('planner-start-date').value;
+            const endDateInput = document.getElementById('planner-end-date').value;
 
-            for (let i = 0; i < 15; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() + i);
-                days.push(date);
+            if (!startDateInput || !endDateInput) {
+                showToast('Selectionne les dates de debut et fin', 'error');
+                return;
+            }
+
+            const startDate = new Date(startDateInput);
+            const endDate = new Date(endDateInput);
+
+            if (endDate < startDate) {
+                showToast('La date de fin doit etre apres la date de debut', 'error');
+                return;
+            }
+
+            const days = [];
+            let currentDate = new Date(startDate);
+            while (currentDate <= endDate) {
+                days.push(new Date(currentDate));
+                currentDate.setDate(currentDate.getDate() + 1);
             }
 
             // =====================
@@ -4380,7 +4441,7 @@ SELECTION:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Planner PRO - ${brandName} | 15 Jours</title>
+    <title>Content Planner PRO - ${brandName} | ${days.length} Jours</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -4630,7 +4691,7 @@ SELECTION:
     <div class="header">
         <h1>📋 CONTENT PLANNER PRO</h1>
         <p>${brandName} - Guide de Production Detaille</p>
-        <div class="dates">Du ${days[0].toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })} au ${days[14].toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+        <div class="dates">Du ${days[0].toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })} au ${days[days.length - 1].toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })} (${days.length} jours)</div>
     </div>
 
     ${generateDaySections(days, themes)}
@@ -4833,6 +4894,14 @@ SELECTION:
                 // Show config modal on first load
                 openConfigModal();
             }
+
+            // Content Planner date change listeners
+            document.getElementById('planner-start-date').addEventListener('change', function() {
+                if (selectedBrand) generatePreview();
+            });
+            document.getElementById('planner-end-date').addEventListener('change', function() {
+                if (selectedBrand) generatePreview();
+            });
         });
 
         // Close modal on escape
